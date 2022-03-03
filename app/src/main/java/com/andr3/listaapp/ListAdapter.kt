@@ -7,7 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.andr3.listaapp.databinding.ItemBinding
 
-class ListAdapter: RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
+class ListAdapter(
+    val listener: ListAdapterListener
+): RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
 
     //Responsável por criar uma instância do ViewHolder, ira pegar o item como template do xml e ira passar para a classe viewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
@@ -22,8 +24,13 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
 
     //ira pegar a view criada no Oncreate e vincular aos dados que queremos exibir baseado na posição
     override fun onBindViewHolder(holder: ListItemViewHolder, position: Int) {
+        val text = "aula 1"
         holder.posicao.text = position.toString()
-        holder.conteudo.text = "aula 1"
+        holder.conteudo.text = text
+
+        holder.root.setOnClickListener{
+            listener.onItemClicked(text)
+        }
     }
 
     //a quantidade de itens a serem mostrados no recycler view
@@ -33,8 +40,13 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
 
     //fixador de visualização (viewHolder) faz a ligação entre o XML do item e o código
     class ListItemViewHolder(binding: ItemBinding) : RecyclerView.ViewHolder(binding.root){
+            var root = binding.root
             var posicao = binding.posicao
             var conteudo = binding.conteudo
+    }
+
+    interface ListAdapterListener{
+        fun onItemClicked(content: String)
     }
 
 }
