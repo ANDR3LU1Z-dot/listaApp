@@ -5,18 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.andr3.listaapp.databinding.ItemBinding
 
 class ListAdapter: RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
-
 
     //Responsável por criar uma instância do ViewHolder, ira pegar o item como template do xml e ira passar para a classe viewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
 
         //LayoutInflater para gerar a parte básica do XML, usando o contexto do pai (patent), o layout do item base, colocando no parent para informar como ira querer exibir e por último o "false" para não ser adicionada a raiz da view
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent,false)//View Base do item
+        return ListItemViewHolder(ItemBinding.inflate( //View Base do item
+            LayoutInflater.from(parent.context),
+            parent, false
+        ))
 
-        //passando para o ViewHolder
-        return ListItemViewHolder(view)
     }
 
     //ira pegar a view criada no Oncreate e vincular aos dados que queremos exibir baseado na posição
@@ -31,9 +32,9 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
     }
 
     //fixador de visualização (viewHolder) faz a ligação entre o XML do item e o código
-    class ListItemViewHolder(view:View) : RecyclerView.ViewHolder(view){
-            var posicao = view.findViewById<TextView>(R.id.posicao)
-            var conteudo = view.findViewById<TextView>(R.id.conteudo)
+    class ListItemViewHolder(binding: ItemBinding) : RecyclerView.ViewHolder(binding.root){
+            var posicao = binding.posicao
+            var conteudo = binding.conteudo
     }
 
 }
